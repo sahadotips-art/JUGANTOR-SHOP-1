@@ -5,15 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JUGANTOR SHOP</title>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Arial,sans-serif;background:#f5f7f8;color:#222}
-header{
- background:#087d91;color:white;padding:15px 5%;
- display:flex;align-items:center;justify-content:space-between;
- position:sticky;top:0;z-index:10;gap:15px;flex-wrap:wrap
-}
+header{background:#087d91;color:white;padding:15px 5%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;gap:15px;flex-wrap:wrap}
 .logo{font-size:25px;font-weight:bold}
 .search{flex:1;max-width:550px;display:flex;background:white;border-radius:25px;overflow:hidden}
 .search input{flex:1;padding:13px;border:0;outline:none;min-width:0}
@@ -23,52 +18,32 @@ header{
 nav{background:white;padding:13px 5%;display:flex;gap:25px;overflow-x:auto;white-space:nowrap}
 nav a{color:#333;text-decoration:none;font-weight:bold;cursor:pointer}
 nav a:hover{color:#07859a}
-.hero{
- margin:18px auto;background:linear-gradient(110deg,#a9eff4,#dffaff);
- width:94%;border-radius:12px;padding:55px 7%;
- min-height:220px;display:flex;align-items:center;
-}
+.hero{margin:18px auto;background:linear-gradient(110deg,#a9eff4,#dffaff);width:94%;border-radius:12px;padding:55px 7%;min-height:220px;display:flex;align-items:center}
 .hero h1{font-size:36px;color:#087d91}
 .hero p{margin:12px 0;font-size:17px}
-.hero button,.primary{
- background:#087d91;color:white;border:0;padding:12px 24px;
- border-radius:7px;cursor:pointer;font-weight:bold
-}
+.hero button,.primary{background:#087d91;color:white;border:0;padding:12px 24px;border-radius:7px;cursor:pointer;font-weight:bold}
 .section{padding:20px 4%}
 .section h2{margin-bottom:18px;color:#087d91}
-.categories{
- display:grid;grid-template-columns:repeat(4,1fr);gap:15px
-}
-.category{
- background:white;border-radius:10px;padding:22px 10px;
- text-align:center;cursor:pointer;box-shadow:0 2px 8px #ddd;
-}
+.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.category{background:white;border-radius:10px;padding:22px 10px;text-align:center;cursor:pointer;box-shadow:0 2px 8px #ddd}
 .category span{font-size:32px}
 .category p{margin-top:10px;font-weight:bold}
-.products{
- display:grid;grid-template-columns:repeat(4,1fr);gap:18px
-}
-.card{
- background:white;border-radius:10px;overflow:hidden;
- box-shadow:0 2px 8px #ddd;position:relative
-}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:white;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px #ddd;position:relative}
 .card img{width:100%;height:190px;object-fit:cover}
 .card-content{padding:13px}
 .card h3{font-size:16px;margin-bottom:8px}
 .price{color:#07859a;font-size:19px;font-weight:bold;margin-bottom:10px}
 .card button{width:100%;padding:10px;border:0;border-radius:5px;cursor:pointer}
-.add{background:#087d91;color:white}
-.heart{
- position:absolute;right:10px;top:10px;background:white;
- border:0;border-radius:50%;padding:9px;cursor:pointer
-}
+.add{background:#087d91;color:white;transition:.18s;position:relative;overflow:hidden}
+.add:hover{transform:translateY(-2px);box-shadow:0 6px 14px #087d9140;background:#066b7c}
+.add:active{transform:scale(.94)}
+.add.added{background:#159447;animation:addedPop .38s ease}
+@keyframes addedPop{0%{transform:scale(.94)}55%{transform:scale(1.06)}100%{transform:scale(1)}}
+.card .heart{position:absolute;right:10px;top:10px;width:34px!important;height:34px!important;padding:0;display:flex;align-items:center;justify-content:center;background:white;border:0;border-radius:50%;font-size:16px;line-height:1;cursor:pointer;z-index:2;box-shadow:0 2px 6px #0002}
 footer{background:#07596b;color:white;padding:35px 5%;margin-top:30px}
 footer p{margin-top:10px}
-.cart-panel{
- position:fixed;right:-400px;top:0;width:min(350px,90%);
- height:100%;background:white;z-index:30;padding:20px;
- box-shadow:0 0 20px #aaa;transition:.3s;overflow:auto
-}
+.cart-panel{position:fixed;right:-400px;top:0;width:min(350px,90%);height:100%;background:white;z-index:30;padding:20px;box-shadow:0 0 20px #aaa;transition:.3s;overflow:auto}
 .cart-panel.open{right:0}
 .cart-panel h2{color:#087d91;margin-bottom:20px}
 .cart-item{border-bottom:1px solid #ddd;padding:12px 0}
@@ -78,456 +53,162 @@ footer p{margin-top:10px}
 .overlay{display:none;position:fixed;inset:0;background:#0006;z-index:20}
 .overlay.show{display:block}
 .empty{text-align:center;padding:30px;color:#777}
-@media(max-width:800px){
- .products{grid-template-columns:repeat(2,1fr)}
- .categories{grid-template-columns:repeat(4,1fr)}
- .hero h1{font-size:27px}
-}
-@media(max-width:480px){
- header{padding:12px}
- .logo{font-size:19px}
- .header-icons{gap:8px}
- .categories{grid-template-columns:repeat(2,1fr)}
- .card img{height:145px}
- .hero{padding:30px 6%}
- .hero h1{font-size:24px}
- nav{gap:18px}
-}
-
-/* Add-to-cart animations */
-.add{
-  transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
-  position:relative;overflow:hidden;
-}
-.add:hover{transform:translateY(-2px);box-shadow:0 6px 14px #087d9140;background:#066b7c}
-.add:active{transform:scale(.94)}
-.add.added{background:#159447;animation:addedPop .38s ease}
-@keyframes addedPop{
-  0%{transform:scale(.94)}
-  55%{transform:scale(1.06)}
-  100%{transform:scale(1)}
-}
 .cart-bump{animation:cartBump .55s ease}
-@keyframes cartBump{
-  0%,100%{transform:scale(1) rotate(0)}
-  25%{transform:scale(1.2) rotate(-10deg)}
-  55%{transform:scale(1.2) rotate(10deg)}
-  75%{transform:scale(1.08) rotate(-5deg)}
-}
+@keyframes cartBump{0%,100%{transform:scale(1)}25%{transform:scale(1.2) rotate(-10deg)}55%{transform:scale(1.2) rotate(10deg)}75%{transform:scale(1.08)}}
 .count-pop{animation:countPop .4s ease}
-@keyframes countPop{
-  0%{transform:scale(.5)}
-  65%{transform:scale(1.35)}
-  100%{transform:scale(1)}
-}
-
-
-/* Toast notification instead of browser alert */
-.shop-toast{
-  position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);
-  background:#087d91;color:#fff;padding:13px 20px;border-radius:30px;
-  box-shadow:0 8px 24px #0003;z-index:9999;font-weight:bold;
-  opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;
-}
-.shop-toast.show{opacity:1;transform:translate(-50%,0)}
-\n</style>
+@keyframes countPop{0%{transform:scale(.5)}65%{transform:scale(1.35)}100%{transform:scale(1)}}
+.shop-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,22px) scale(.94);width:max-content;max-width:calc(100% - 36px);background:linear-gradient(110deg,#07596b,#0b9aaa);color:#fff;padding:13px 22px;border-radius:16px;box-shadow:0 10px 28px #003b4b55;z-index:9999;font-weight:700;font-size:14px;text-align:center;border:1px solid #ffffff40;opacity:0;pointer-events:none;transition:.25s}
+.shop-toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+@media(max-width:800px){.products{grid-template-columns:repeat(2,1fr)}.categories{grid-template-columns:repeat(4,1fr)}.hero h1{font-size:27px}}
+@media(max-width:480px){header{padding:12px}.logo{font-size:19px}.header-icons{gap:8px}.categories{grid-template-columns:repeat(2,1fr)}.card img{height:145px}.hero{padding:30px 6%}.hero h1{font-size:24px}nav{gap:18px}}
+</style>
 </head>
-
-<body>\n<div id="shopToast" class="shop-toast" role="status">✓ Product added to cart!</div>
-
+<body>
+<div id="shopToast" class="shop-toast">✓ Product added to cart!</div>
 <header>
- <div class="logo">🛍 JUGANTOR SHOP</div>
-
- <div class="search">
-  <input id="searchInput" placeholder="Search Products...">
-  <button onclick="searchProducts()">🔍</button>
- </div>
-
- <div class="header-icons">
-  <button id="headerCartButton" onclick="showCart()" aria-label="Cart" title="Cart" style="position:relative;background:white;border:0;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center">🛒<span id="cartCount" style="position:absolute;right:-5px;top:-6px;background:#ffb000;color:#222;border-radius:50%;min-width:18px;height:18px;padding:2px 4px;font-size:11px;font-weight:bold;line-height:14px">0</span></button>
-  <button onclick="showWishlist()">❤️</button>
-  <button onclick="login()">👤</button>
- </div>
+<div class="logo">🛍 JUGANTOR SHOP</div>
+<div class="search"><input id="searchInput" placeholder="Search Products..."><button onclick="searchProducts()">🔍</button></div>
+<div class="header-icons">
+<button id="headerCartButton" onclick="showCart()">🛒<span id="cartCount" style="position:absolute;right:-5px;top:-6px;background:#ffb000;color:#222;border-radius:50%;min-width:18px;height:18px;font-size:11px">0</span></button>
+<button onclick="showWishlist()">❤️</button>
+<button onclick="login()">👤</button>
+</div>
 </header>
-
 <nav>
- <a onclick="filterCategory('All')">Home</a>
- <a onclick="filterCategory('Bags')">Bags</a>
- <a onclick="filterCategory('Shoes')">Shoes</a>
- <a onclick="filterCategory('Jewelry')">Jewelry</a>
- <a onclick="filterCategory('Beauty')">Beauty</a>
- <a onclick="filterCategory('Fashion')">Fashion</a>
- <a onclick="filterCategory('Gadgets')">Gadgets</a>
- <a onclick="showCart()">🛒</a>
+<a onclick="filterCategory('All')">Home</a>
+<a onclick="filterCategory('Bags')">Bags</a>
+<a onclick="filterCategory('Shoes')">Shoes</a>
+<a onclick="filterCategory('Jewelry')">Jewelry</a>
+<a onclick="filterCategory('Beauty')">Beauty</a>
+<a onclick="filterCategory('Fashion')">Fashion</a>
+<a onclick="filterCategory('Gadgets')">Gadgets</a>
+<a onclick="showCart()">🛒</a>
 </nav>
-
 <section class="hero">
- <div>
-  <h1>Welcome to JUGANTOR SHOP</h1>
-  <p>Discover Amazing Products at Great Prices!</p>
-  <button onclick="document.getElementById('products').scrollIntoView()">Shop Now →</button>
- </div>
+<div><h1>Welcome to JUGANTOR SHOP</h1><p>Discover Amazing Products at Great Prices!</p><button onclick="document.getElementById('products').scrollIntoView()">Shop Now →</button></div>
 </section>
-
 <section class="section">
- <h2>Shop By Category</h2>
- <div class="categories">
-  <div class="category" onclick="filterCategory('Bags')"><span>👜</span><p>Bags</p></div>
-  <div class="category" onclick="filterCategory('Shoes')"><span>👟</span><p>Shoes</p></div>
-  <div class="category" onclick="filterCategory('Jewelry')"><span>💎</span><p>Jewelry</p></div>
-  <div class="category" onclick="filterCategory('Watches')"><span>⌚</span><p>Watches</p></div>
-  <div class="category" onclick="filterCategory('Gadgets')"><span>📱</span><p>Gadgets</p></div>
-  <div class="category" onclick="filterCategory('Fashion')"><span>👕</span><p>Fashion</p></div>
-  <div class="category" onclick="filterCategory('Beauty')"><span>💄</span><p>Beauty</p></div>
-  <div class="category" onclick="filterCategory('Baby')"><span>🧸</span><p>Baby Items</p></div>
- </div>
+<h2>Shop By Category</h2>
+<div class="categories">
+<div class="category" onclick="filterCategory('Bags')"><span>👜</span><p>Bags</p></div>
+<div class="category" onclick="filterCategory('Shoes')"><span>👟</span><p>Shoes</p></div>
+<div class="category" onclick="filterCategory('Jewelry')"><span>💎</span><p>Jewelry</p></div>
+<div class="category" onclick="filterCategory('Watches')"><span>⌚</span><p>Watches</p></div>
+<div class="category" onclick="filterCategory('Gadgets')"><span>📱</span><p>Gadgets</p></div>
+<div class="category" onclick="filterCategory('Fashion')"><span>👕</span><p>Fashion</p></div>
+<div class="category" onclick="filterCategory('Beauty')"><span>💄</span><p>Beauty</p></div>
+<div class="category" onclick="filterCategory('Baby')"><span>🧸</span><p>Baby Items</p></div>
+</div>
 </section>
-
 <section class="section" id="products">
- <h2 id="productHeading">Featured Products</h2>
- <div class="products" id="productList"></div>
+<h2 id="productHeading">Featured Products</h2>
+<div class="products" id="productList"></div>
 </section>
-
-<footer>
- <h2>JUGANTOR SHOP</h2>
- <p>Your Trusted Online Shopping Marketplace.</p>
- <p>Customer Support | About Us | Privacy Policy</p>
- <p>© 2026 JUGANTOR SHOP. All Rights Reserved.</p>
-</footer>
-
+<footer><h2>JUGANTOR SHOP</h2><p>Your Trusted Online Shopping Marketplace.</p><p>Customer Support | About Us | Privacy Policy</p><p>© 2026 JUGANTOR SHOP. All Rights Reserved.</p></footer>
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
-
 <div class="cart-panel" id="cartPanel">
- <button class="close" onclick="closeCart()">✖ Close</button>
- <h2>My Shopping Cart</h2>
- <div id="cartItems"></div>
- <div class="total" id="total">Total: ৳0</div>
- <button class="primary" onclick="checkout()">Proceed to Checkout</button>
+<button class="close" onclick="closeCart()">✖ Close</button>
+<h2>My Shopping Cart</h2>
+<div id="cartItems"></div>
+<div class="total" id="total">Total: ৳0</div>
+<button class="primary" onclick="checkout()">Proceed to Checkout</button>
 </div>
-
-
 <div id="checkoutBox" style="display:none;position:fixed;inset:0;background:#0008;z-index:100;overflow:auto;padding:20px">
- <div style="background:white;max-width:450px;margin:30px auto;padding:25px;border-radius:12px">
-  <button type="button" onclick="closeCheckout()" style="float:right;border:0;background:#eee;padding:8px;cursor:pointer">✖ Close</button>
-  <h2 style="color:#087d91;margin-bottom:18px">Complete Your Order</h2>
-  <form id="orderForm">
-   <label for="customerName">Full Name</label>
-   <input id="customerName" required placeholder="Enter your name" style="width:100%;padding:12px;margin:8px 0 14px;border:1px solid #ccc;border-radius:6px">
-   <label for="customerPhone">Mobile Number</label>
-   <input id="customerPhone" type="tel" required pattern="01[3-9][0-9]{8}" placeholder="01XXXXXXXXX" style="width:100%;padding:12px;margin:8px 0 14px;border:1px solid #ccc;border-radius:6px">
-   <label for="customerAddress">Delivery Address</label>
-   <textarea id="customerAddress" required placeholder="House, Road, Area, District" style="width:100%;padding:12px;margin:8px 0 14px;border:1px solid #ccc;border-radius:6px;min-height:85px"></textarea>
-   <label for="paymentMethod">Payment Method</label>
-   <select id="paymentMethod" required onchange="updatePaymentDetails()" style="width:100%;padding:12px;margin:8px 0 14px;border:1px solid #ccc;border-radius:6px">
-    <option value="Cash on Delivery">Cash on Delivery</option>
-    <option value="bKash">bKash</option>
-    <option value="Nagad">Nagad</option>
-   </select>
-   <div id="paymentDetails" style="display:none;background:#f5f7f8;padding:14px;border-radius:8px;margin:0 0 14px">
-    <p style="margin-bottom:8px;font-weight:bold">Send payment to this number:</p>
-    <p style="font-size:20px;font-weight:bold;color:#087d91;margin-bottom:10px"><span id="paymentNumber">01923969596</span>
-     <button type="button" onclick="copyPaymentNumber()" style="padding:5px 9px;margin-left:8px;border:0;border-radius:5px;cursor:pointer">Copy</button>
-    </p>
-    <label for="transactionId">Transaction ID (TrxID)</label>
-    <input id="transactionId" type="text" placeholder="Enter your Transaction ID" style="width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:6px">
-    <small>Please complete the payment using the selected service, then enter the Transaction ID.</small>
-   </div>
-   <h3 id="orderTotal" style="margin:15px 0;color:#087d91"></h3>
-   <button type="submit" class="primary" style="width:100%">CONFIRM ORDER</button>
-   <button type="button" onclick="closeCheckout()" style="width:100%;padding:12px;margin-top:10px;border:0;border-radius:7px;cursor:pointer">Cancel</button>
-  </form>
- </div>
+<div style="background:white;max-width:450px;margin:30px auto;padding:25px;border-radius:12px">
+<button type="button" onclick="closeCheckout()" style="float:right;border:0;background:#eee;padding:8px">✖ Close</button>
+<h2 style="color:#087d91;margin-bottom:18px">Complete Your Order</h2>
+<form id="orderForm">
+<label>Full Name</label><input id="customerName" required placeholder="Enter your name" style="width:100%;padding:12px;margin:8px 0 14px;border:1px solid #ccc;border-radius:6px">
+<label>Mobile Number</label><input id="customerPhone" type="tel" required pattern="01[3-9][0-9]{8}" placeholder="01XXXXXXXXX" style="width:100%;padding:12px;margin:8px 0 14px;border:1px solid #ccc;border-radius:6px">
+<label>Delivery Address</label><textarea id="customerAddress" required placeholder="House, Road, Area, District" style="width:100%;padding:12px;margin:8px 0 14px;border:1px solid #ccc;border-radius:6px;min-height:85px"></textarea>
+<label>Payment Method</label>
+<select id="paymentMethod" required onchange="updatePaymentDetails()" style="width:100%;padding:12px;margin:8px 0 14px;border:1px solid #ccc;border-radius:6px">
+<option value="Cash on Delivery">Cash on Delivery</option><option value="bKash">bKash</option><option value="Nagad">Nagad</option>
+</select>
+<div id="paymentDetails" style="display:none;background:#f5f7f8;padding:14px;border-radius:8px;margin:0 0 14px">
+<p style="margin-bottom:8px;font-weight:bold">Send payment to this number:</p>
+<p style="font-size:20px;font-weight:bold;color:#087d91;margin-bottom:10px"><span id="paymentNumber">01923969596</span><button type="button" onclick="copyPaymentNumber()">Copy</button></p>
+<label>Transaction ID (TrxID)</label>
+<input id="transactionId" type="text" placeholder="Enter your Transaction ID" style="width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:6px">
+<small>Please complete the payment, then enter the Transaction ID.</small>
 </div>
-
+<h3 id="orderTotal" style="margin:15px 0;color:#087d91"></h3>
+<button type="submit" class="primary" style="width:100%">CONFIRM ORDER</button>
+<button type="button" onclick="closeCheckout()" style="width:100%;padding:12px;margin-top:10px">Cancel</button>
+</form></div></div>
 <div id="orderSuccess" style="display:none;position:fixed;inset:0;background:#0008;z-index:110;padding:20px;overflow:auto">
- <div style="background:white;max-width:420px;margin:70px auto;padding:25px;border-radius:12px;text-align:center">
-  <h2 style="color:#087d91">Order Submitted!</h2>
-  <p id="successOrderId" style="margin:15px 0"></p>
-  <button class="primary" onclick="closeOrderSuccess()">Continue Shopping</button>
- </div>
-</div>
-
+<div style="background:white;max-width:420px;margin:70px auto;padding:25px;border-radius:12px;text-align:center">
+<h2 style="color:#087d91">Order Submitted!</h2><p id="successOrderId" style="margin:15px 0"></p><button class="primary" onclick="closeOrderSuccess()">Continue Shopping</button>
+</div></div>
 <script>
 let products=[
- {id:1,name:"Premium Ladies Handbag",category:"Bags",price:1250,image:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500"},
- {id:2,name:"Stylish Sneakers",category:"Shoes",price:1850,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
- {id:3,name:"Luxury Necklace",category:"Jewelry",price:950,image:"https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=500"},
- {id:4,name:"Smart Watch",category:"Watches",price:2200,image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"},
- {id:5,name:"Wireless Headphone",category:"Gadgets",price:1450,image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"},
- {id:6,name:"Fashion T-Shirt",category:"Fashion",price:650,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"},
- {id:7,name:"Beauty Product",category:"Beauty",price:850,image:"https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500"},
- {id:8,name:"Baby Teddy Bear",category:"Baby",price:550,image:"https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500"}
+{id:1,name:"Premium Ladies Handbag",category:"Bags",price:1250,image:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500"},
+{id:2,name:"Stylish Sneakers",category:"Shoes",price:1850,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
+{id:3,name:"Luxury Necklace",category:"Jewelry",price:950,image:"https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=500"},
+{id:4,name:"Smart Watch",category:"Watches",price:2200,image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"},
+{id:5,name:"Wireless Headphone",category:"Gadgets",price:1450,image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"},
+{id:6,name:"Fashion T-Shirt",category:"Fashion",price:650,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"},
+{id:7,name:"Beauty Product",category:"Beauty",price:850,image:"https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500"},
+{id:8,name:"Baby Teddy Bear",category:"Baby",price:550,image:"https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500"}
 ];
-
-let cart=[];
-let wishlist=[];
-let currentProducts=[...products];
-window.setFirebaseProducts = (remote) => { products = remote; currentProducts = [...remote]; renderProducts(remote); };
-window.products = products;
-window.currentProducts = currentProducts;
-
+let cart=[],wishlist=[],currentProducts=[...products];
+window.setFirebaseProducts=(remote)=>{products=remote;currentProducts=[...remote];renderProducts(remote)};
+window.products=products;
 function renderProducts(items){
- const list=document.getElementById("productList");
- list.innerHTML="";
- if(items.length===0){
-  list.innerHTML='<p class="empty">No products found.</p>';
-  return;
- }
- items.forEach(p=>{
-  list.innerHTML+=`
-   <div class="card">
-    <button class="heart" onclick="toggleWish(${p.id})">❤️</button>
-    <img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/400x300?text=Product'">
-    <div class="card-content">
-     <h3>${p.name}</h3>
-     <p class="price">৳${p.price}</p>
-     <button class="add" onclick="addCart(${p.id},this)">Add to Cart</button>
-    </div>
-   </div>`;
- });
-}
-
-
-let shopToastTimer;
-function showShopToast(message){
-  const toast=document.getElementById("shopToast");
-  if(!toast)return;
-  toast.textContent=message;
-  toast.classList.add("show");
-  clearTimeout(shopToastTimer);
-  shopToastTimer=setTimeout(()=>toast.classList.remove("show"),1800);
-}
-
-function addCart(id,button){
-  let item=cart.find(p=>p.id===id);
-  if(item)item.qty++;
-  else cart.push({...products.find(p=>p.id===id),qty:1});
-  updateCart();
-  showShopToast("Product added to cart!");
-
-  // Animate the clicked button and the cart icon.
-  if(button){
-    const originalText=button.dataset.originalText||"Add to Cart";
-    button.dataset.originalText=originalText;
-    button.classList.remove("added");
-    void button.offsetWidth;
-    button.classList.add("added");
-    button.innerText="✓ Added!";
-    setTimeout(()=>{
-      button.innerText=originalText;
-      button.classList.remove("added");
-    },900);
-  }
-  const cartButton=document.getElementById("headerCartButton");
-  const count=document.getElementById("cartCount");
-  if(cartButton){
-    cartButton.classList.remove("cart-bump");
-    void cartButton.offsetWidth;
-    cartButton.classList.add("cart-bump");
-  }
-  if(count){
-    count.classList.remove("count-pop");
-    void count.offsetWidth;
-    count.classList.add("count-pop");
-  }
-}
-
-function updateCart(){
- document.getElementById("cartCount").innerText=
- cart.reduce((sum,p)=>sum+p.qty,0);
- document.getElementById("cartItems").innerHTML=cart.length?
- cart.map(p=>`
- <div class="cart-item">
- <b>${p.name}</b><br>
- ৳${p.price} × ${p.qty}
- <button onclick="changeQty(${p.id},-1)">−</button>
- <button onclick="changeQty(${p.id},1)">+</button>
- </div>`).join(""):"<p>Your cart is empty.</p>";
-
- let total=cart.reduce((sum,p)=>sum+p.price*p.qty,0);
- document.getElementById("total").innerText="Total: ৳"+total;
-}
-
-function changeQty(id,n){
- let item=cart.find(p=>p.id===id);
- if(!item)return;
- item.qty+=n;
- if(item.qty<=0)cart=cart.filter(p=>p.id!==id);
- updateCart();
-}
-
-function showCart(){
- document.getElementById("cartPanel").classList.add("open");
- document.getElementById("overlay").classList.add("show");
- updateCart();
-}
-function closeCart(){
- document.getElementById("cartPanel").classList.remove("open");
- document.getElementById("overlay").classList.remove("show");
-}
-
-function filterCategory(category){
- currentProducts=category==="All"?[...products]:
- products.filter(p=>p.category===category);
- document.getElementById("productHeading").innerText=
- category==="All"?"Featured Products":category+" Products";
- renderProducts(currentProducts);
- document.getElementById("products").scrollIntoView({behavior:"smooth"});
-}
-
-function searchProducts(){
- let q=document.getElementById("searchInput").value.toLowerCase();
- let result=products.filter(p=>
- p.name.toLowerCase().includes(q)||
- p.category.toLowerCase().includes(q)
- );
- document.getElementById("productHeading").innerText="Search Results";
- renderProducts(result);
-}
-
-function toggleWish(id){
- if(wishlist.includes(id))
-  wishlist=wishlist.filter(x=>x!==id);
- else wishlist.push(id);
- alert("Wishlist updated!");
-}
-
-function showWishlist(){
- let items=products.filter(p=>wishlist.includes(p.id));
- document.getElementById("productHeading").innerText="My Wishlist";
- renderProducts(items);
- document.getElementById("products").scrollIntoView({behavior:"smooth"});
-}
-
-function login(){
- alert("Login and Registration will be connected with Firebase.");
-}
-
-function updatePaymentDetails(){
- const method=document.getElementById("paymentMethod").value;
- const digital=(method==="bKash"||method==="Nagad");
- document.getElementById("paymentDetails").style.display=digital?"block":"none";
- document.getElementById("transactionId").required=digital;
- document.getElementById("paymentNumber").innerText="01923969596";
-}
-
-function copyPaymentNumber(){
- const number="01923969596";
- if(navigator.clipboard && navigator.clipboard.writeText){
-  navigator.clipboard.writeText(number).then(()=>alert("Payment number copied!")).catch(()=>alert("Payment number: "+number));
- }else{
-  alert("Payment number: "+number);
- }
-}
-
-function checkout(){
- if(cart.length===0){
-  alert("Your cart is empty!");
-  return;
- }
-
- let total=cart.reduce((sum,p)=>sum+p.price*p.qty,0);
- document.getElementById("orderTotal").innerText="Total Amount: ৳"+total;
-
- closeCart();
- document.getElementById("checkoutBox").style.display="block";
-}
-
-function closeCheckout(){
- document.getElementById("checkoutBox").style.display="none";
-}
-
-function closeOrderSuccess(){
- document.getElementById("orderSuccess").style.display="none";
-}
-
-document.getElementById("orderForm").addEventListener("submit",function(e){
- e.preventDefault();
-
- if(cart.length===0){
-  alert("Your cart is empty!");
-  closeCheckout();
-  return;
- }
-
- const order={
-  orderId:"JS"+Date.now(),
-  customerName:document.getElementById("customerName").value.trim(),
-  phone:document.getElementById("customerPhone").value.trim(),
-  address:document.getElementById("customerAddress").value.trim(),
-  payment:document.getElementById("paymentMethod").value,
-  paymentNumber:document.getElementById("paymentMethod").value==="Cash on Delivery"?"":"01923969596",
-  transactionId:document.getElementById("transactionId").value.trim(),
-  products:cart.map(p=>({
-   id:p.id,
-   name:p.name,
-   price:p.price,
-   quantity:p.qty
-  })),
-  total:cart.reduce((sum,p)=>sum+p.price*p.qty,0),
-  status:"Pending",
-  date:new Date().toISOString()
- };
-
- let orders=[];
- try{
-  orders=JSON.parse(localStorage.getItem("orders")||"[]");
-  if(!Array.isArray(orders)) orders=[];
- }catch(error){
-  orders=[];
- }
- orders.push(order);
- localStorage.setItem("orders",JSON.stringify(orders));
-  // Also submit this order to Firebase when the connection is available.
-  if (window.submitFirebaseOrder) {
-    window.submitFirebaseOrder(order).catch(err => console.warn("Firebase order save failed:", err));
-  }
-
- cart=[];
- updateCart();
- closeCheckout();
- document.getElementById("orderForm").reset();
-
- document.getElementById("successOrderId").innerText=
-  "Your Order ID: "+order.orderId+" | Total: ৳"+order.total;
- document.getElementById("orderSuccess").style.display="block";
+let list=document.getElementById("productList");list.innerHTML="";
+if(!items.length){list.innerHTML='<p class="empty">No products found.</p>';return}
+items.forEach(p=>{
+list.innerHTML+=`<div class="card"><button class="heart" onclick="toggleWish(${p.id})">❤️</button><img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/400x300?text=Product'"><div class="card-content"><h3>${p.name}</h3><p class="price">৳${p.price}</p><button class="add" onclick="buyNow(${p.id})">Order Now</button><button class="add" onclick="addCart(${p.id},this)" style="margin-top:8px;background:#ffb000;color:#222">Add to Cart</button></div></div>`;
 });
-
-renderProducts(products);
-updateCart();
-updatePaymentDetails();
-</script>
-
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyCar_N5D5phem7WjxXUucdyYscoA1IBvsc",
-  authDomain: "jugantor-shop-e4d1e.firebaseapp.com",
-  projectId: "jugantor-shop-e4d1e",
-  storageBucket: "jugantor-shop-e4d1e.firebasestorage.app",
-  messagingSenderId: "383695816506",
-  appId: "1:383695816506:web:506a4efdd3331c8b1f7203",
-  measurementId: "G-V6MLD72WM4"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-window.submitFirebaseOrder = async (order) => {
-  const safeOrder = { ...order, createdAt: serverTimestamp(), source: "JUGANTOR SHOP web" };
-  const doc = await addDoc(collection(db, "orders"), safeOrder);
-  console.log("Firebase order saved", doc.id);
-  return doc.id;
-};
-// Optional real-time product sync: admin products in Firestore replace local demo list.
-onSnapshotProducts();
-function onSnapshotProducts(){
-  onSnapshot(collection(db, "products"), (snapshot) => {
-    if (snapshot.empty) return;
-    const remote = snapshot.docs.map(d => ({ id: d.data().id ?? d.id, ...d.data() }));
-    if (remote.length) { if (window.setFirebaseProducts) window.setFirebaseProducts(remote); }
-  }, (error) => console.warn("Firebase product sync:", error));
 }
+let shopToastTimer;
+function showShopToast(message){let toast=document.getElementById("shopToast");toast.textContent=message;toast.classList.add("show");clearTimeout(shopToastTimer);shopToastTimer=setTimeout(()=>toast.classList.remove("show"),1800)}
+function buyNow(id){let p=products.find(x=>x.id==id);if(!p)return;cart=[{...p,qty:1}];updateCart();checkout()}
+function addCart(id,button){
+let p=products.find(x=>x.id==id);if(!p)return;
+let item=cart.find(x=>x.id==id);if(item)item.qty++;else cart.push({...p,qty:1});
+updateCart();showShopToast("Product added to cart!");
+if(button){let old=button.innerText;button.innerText="✓ Added!";button.classList.add("added");setTimeout(()=>{button.innerText=old;button.classList.remove("added")},900)}
+let b=document.getElementById("headerCartButton");b.classList.remove("cart-bump");void b.offsetWidth;b.classList.add("cart-bump");
+}
+function updateCart(){
+document.getElementById("cartCount").innerText=cart.reduce((s,p)=>s+p.qty,0);
+document.getElementById("cartItems").innerHTML=cart.length?cart.map(p=>`<div class="cart-item"><b>${p.name}</b><br>৳${p.price} × ${p.qty}<button onclick="changeQty(${p.id},-1)">−</button><button onclick="changeQty(${p.id},1)">+</button></div>`).join(""):"<p>Your cart is empty.</p>";
+document.getElementById("total").innerText="Total: ৳"+cart.reduce((s,p)=>s+p.price*p.qty,0);
+}
+function changeQty(id,n){let p=cart.find(x=>x.id==id);if(!p)return;p.qty+=n;if(p.qty<=0)cart=cart.filter(x=>x.id!=id);updateCart()}
+function showCart(){document.getElementById("cartPanel").classList.add("open");document.getElementById("overlay").classList.add("show");updateCart()}
+function closeCart(){document.getElementById("cartPanel").classList.remove("open");document.getElementById("overlay").classList.remove("show")}
+function filterCategory(c){let items=c==="All"?products:products.filter(p=>p.category===c);document.getElementById("productHeading").innerText=c==="All"?"Featured Products":c+" Products";renderProducts(items);document.getElementById("products").scrollIntoView({behavior:"smooth"})}
+function searchProducts(){let q=document.getElementById("searchInput").value.toLowerCase();renderProducts(products.filter(p=>p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)));document.getElementById("productHeading").innerText="Search Results"}
+function toggleWish(id){if(wishlist.includes(id)){wishlist=wishlist.filter(x=>x!==id);showShopToast("Removed from Wishlist")}else{wishlist.push(id);showShopToast("Added to Wishlist!")}}
+function showWishlist(){renderProducts(products.filter(p=>wishlist.includes(p.id)));document.getElementById("productHeading").innerText="My Wishlist";document.getElementById("products").scrollIntoView({behavior:"smooth"})}
+function login(){alert("Login and Registration will be connected with Firebase.")}
+function updatePaymentDetails(){let m=document.getElementById("paymentMethod").value,d=m==="bKash"||m==="Nagad";document.getElementById("paymentDetails").style.display=d?"block":"none";document.getElementById("transactionId").required=d}
+function copyPaymentNumber(){navigator.clipboard.writeText("01923969596").then(()=>alert("Copied!")).catch(()=>alert("Payment number: 01923969596"))}
+function checkout(){if(!cart.length){alert("Your cart is empty!");return}document.getElementById("orderTotal").innerText="Total Amount: ৳"+cart.reduce((s,p)=>s+p.price*p.qty,0);closeCart();document.getElementById("checkoutBox").style.display="block"}
+function closeCheckout(){document.getElementById("checkoutBox").style.display="none"}
+function closeOrderSuccess(){document.getElementById("orderSuccess").style.display="none"}
+document.getElementById("orderForm").addEventListener("submit",async function(e){
+e.preventDefault();
+if(!cart.length){alert("Your cart is empty!");return}
+let method=document.getElementById("paymentMethod").value;
+let trx=document.getElementById("transactionId").value.trim();
+if((method==="bKash"||method==="Nagad")&&!trx){alert("Please enter Transaction ID");return}
+let order={orderId:"JS"+Date.now(),customerName:document.getElementById("customerName").value.trim(),phone:document.getElementById("customerPhone").value.trim(),address:document.getElementById("customerAddress").value.trim(),payment:method,transactionId:trx,products:cart.map(p=>({id:p.id,name:p.name,price:p.price,quantity:p.qty})),total:cart.reduce((s,p)=>s+p.price*p.qty,0),status:"Pending",date:new Date().toISOString()};
+let orders=JSON.parse(localStorage.getItem("orders")||"[]");orders.push(order);localStorage.setItem("orders",JSON.stringify(orders));
+if(window.submitFirebaseOrder){try{await window.submitFirebaseOrder(order)}catch(err){alert("Order could not be saved. Please try again.");return}}
+cart=[];updateCart();closeCheckout();document.getElementById("orderForm").reset();updatePaymentDetails();document.getElementById("successOrderId").innerText="Your Order ID: "+order.orderId+" | Total: ৳"+order.total;document.getElementById("orderSuccess").style.display="block";
+});
+renderProducts(products);updateCart();updatePaymentDetails();
+</script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+import{getFirestore,collection,addDoc,serverTimestamp,onSnapshot}from"https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyCar_N5D5phem7WjxXUucdyYscoA1IBvsc",authDomain:"jugantor-shop-e4d1e.firebaseapp.com",projectId:"jugantor-shop-e4d1e",storageBucket:"jugantor-shop-e4d1e.firebasestorage.app",messagingSenderId:"383695816506",appId:"1:383695816506:web:506a4efdd3331c8b1f7203",measurementId:"G-V6MLD72WM4"};
+const app=initializeApp(firebaseConfig);const db=getFirestore(app);
+window.submitFirebaseOrder=async(order)=>{let doc=await addDoc(collection(db,"orders"),{...order,createdAt:serverTimestamp(),source:"JUGANTOR SHOP web"});return doc.id};
+onSnapshot(collection(db,"products"),snapshot=>{if(snapshot.empty)return;let remote=snapshot.docs.map(d=>({id:d.data().id??d.id,...d.data()}));if(remote.length&&window.setFirebaseProducts)window.setFirebaseProducts(remote)},error=>console.warn("Firebase product sync:",error));
 </script>
 </body>
 </html>
